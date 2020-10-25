@@ -130,10 +130,51 @@
 			return a === false ? [r,g,b] : [r,g,b,a];
 		}
 
+    },
+	// rgba_to_lovergba _______________________________________________________________________________________________________________________________________________
+	rgba_to_lovergba = (arr) => {
+
+		const 	rlove = arr[0] / 255,
+				glove = arr[1] / 255,
+				blove = arr[2] / 255;
+
+		// return arr.length === 3 ? [Math.round(rlove), Math.round(glove), Math.round(blove)] : [Math.round(rlove), Math.round(glove), Math.round(blove), arr[3]/255];
+		return arr.length === 3 ? [rlove, glove, blove] : [rlove, glove, blove, arr[3]];
+
+    },
+	// lovergba_rgba _______________________________________________________________________________________________________________________________________________
+	lovergba_to_rgba = (arr) => {
+
+		const 	r = arr[0] * 255,
+				g = arr[1] * 255,
+                b = arr[2] * 255;
+
+		return arr.length === 3 ? [Math.round(r), Math.round(g), Math.round(b)] : [Math.round(r), Math.round(g), Math.round(b), arr[3]];
+
 	},
 
-	// css color <> hex _______________________________________________________________________________________________________________________________________________
+	// arr_lovergba_to_str _______________________________________________________________________________________________________________________________________________
+    arr_lovergba_to_str = (arr) => {
+		const 	rlove = arr[0] * 255,
+                glove = arr[1] * 255,
+                blove = arr[2] * 255
+                rgblove = (Math.round(rlove)).toString()+"/255, " + (Math.round(glove)).toString()+"/255, " + (Math.round(blove)).toString()+"/255";    
 
+		return arr.length === 3 ? 'setColor('+rgblove+')' : 'setColor('+rgblove+', '+Math.round(arr[3] * 255).toString()+'/255)';
+	},
+
+	// str_lovergba_to_arr _______________________________________________________________________________________________________________________________________________
+    str_lovergba_to_arr = (str) => { // true = return string, false = return array
+
+        const 	arr_tmp = str.replace(/\s/g, '').split(','),
+                r = parseFloat(arr_tmp[0].substr(arr_tmp[0].indexOf('(') + 1, arr_tmp[0].length)),
+                g = parseFloat(arr_tmp[1]),
+                b = parseFloat(arr_tmp[2]);
+            
+        return arr_tmp.length === 3 ? [Math.round(r)/255, Math.round(g)/255, Math.round(b)/255] : [Math.round(r)/255, Math.round(g)/255, Math.round(b)/255, Math.round(parseFloat(arr_tmp[3]))/255];
+    },
+    
+    // css color <> hex _______________________________________________________________________________________________________________________________________________
 	obj_css_colors = { 'AliceBlue':'#f0f8ff', 'AntiqueWhite':'#faebd7', 'Aqua':'#00ffff', 'AquaMarine':'#7fffd4', 'Azure':'#f0ffff', 'Beige':'#f5f5dc', 'Bisque':'#ffe4c4', 'Black':'#000000', 'BlanchedAlmond':'#ffebcd', 'Blue':'#0000ff', 'BlueViolet':'#8a2be2', 'Brown':'#a52a2a', 'Burlywood':'#deb887', 'CadetBlue':'#5f9ea0', 'Chartreuse':'#7fff00', 'Chocolate':'#d2691e', 'Coral':'#ff7f50', 'CornFlowerBlue':'#6495ed', 'CornSilk':'#fff8dc', 'Crimson':'#dc143c', 'Cyan':'#00ffff', 'DarkBlue':'#00008b', 'DarkCyan':'#008b8b', 'DarkGoldenRod':'#b8860b', 'DarkGray':'#a9a9a9', 'DarkGrey':'#a9a9a9', 'DarkGreen':'#006400', 'DarkKhaki':'#bdb76b', 'DarkMagenta':'#8b008b', 'DarkOliveGreen':'#556b2f', 'DarkOrange':'#ff8c00', 'DarkOrchid':'#9932cc', 'DarkRed':'#8b0000', 'DarkSalmon':'#e9967a', 'DarkSeaGreen':'#8fbc8f', 'DarkSlateBlue':'#483d8b', 'DarkSlateGray':'#2f4f4f', 'DarkSlateGrey':'#2f4f4f', 'DarkTurquoise':'#00ced1', 'DarkViolet':'#9400d3', 'DeepPink':'#ff1493', 'DeepSkyBlue':'#00bfff', 'DimGray':'#696969', 'DimGrey':'#696969', 'DodgerBlue':'#1e90ff', 'FireBrick':'#b22222', 'FloralWhite':'#fffaf0', 'ForestGreen':'#228b22', 'Fuchsia':'#ff00ff', 'Gainsboro':'#dcdcdc', 'GhostWhite':'#f8f8ff', 'Gold':'#ffd700', 'GoldenRod':'#daa520', 'Gray':'#808080', 'Grey':'#808080', 'Green':'#008000', 'GreenYellow':'#adff2f', 'Honeydew':'#f0fff0', 'HotPink':'#ff69b4', 'IndianRed':'#cd5c5c', 'Indigo':'#4b0082', 'Ivory':'#fffff0', 'Khaki':'#f0e68c', 'Lavender':'#e6e6fa', 'LavenderBlush':'#fff0f5', 'LawnGreen':'#7cfc00', 'LemonChiffon':'#fffacd', 'LightBlue':'#add8e6', 'LightCoral':'#f08080', 'LightCyan':'#e0ffff', 'LightGoldenRodYellow':'#fafad2', 'LightGray':'#d3d3d3', 'LightGrey':'#d3d3d3', 'LightGreen':'#90ee90', 'LightPink':'#ffb6c1', 'LightSalmon':'#ffa07a', 'LightSeaGreen':'#20b2aa', 'LightSkyBlue':'#87cefa', 'LightSlateGray':'#778899', 'LightSlateGrey':'#778899', 'LightSteelBlue':'#b0c4de', 'LightYellow':'#ffffe0', 'Lime':'#00ff00', 'LimeGreen':'#32cd32', 'Linen':'#faf0e6', 'Magenta':'#ff00ff', 'Maroon':'#800000', 'MediumAquaMarine':'#66cdaa', 'MediumBlue':'#0000cd', 'Mediumorchid':'#ba55d3', 'MediumPurple':'#9370d8', 'MediumSeaGreen':'#3cb371', 'MediumSlateBlue':'#7b68ee', 'MediumSpringGreen':'#00fa9a', 'MediumTurquoise':'#48d1cc', 'MediumVioletRed':'#c71585', 'MidnightBlue':'#191970', 'MintCream':'#f5fffa', 'MistyRose':'#ffe4e1', 'Moccasin':'#ffe4b5', 'NavajoWhite':'#ffdead', 'Navy':'#000080', 'OldLace':'#fdf5e6', 'Olive':'#808000', 'OliveDrab':'#6b8e23', 'Orange':'#ffa500', 'OrangeRed':'#ff4500', 'Orchid':'#da70d6', 'PaleGoldenRod':'#eee8aa', 'PaleGreen':'#98fb98', 'PaleTurquoise':'#afeeee', 'PaleVioletRed':'#d87093', 'PapayaWhip':'#ffefd5', 'PeachPuff':'#ffdab9', 'Peru':'#cd853f', 'Pink':'#ffc0cb', 'Plum':'#dda0dd', 'PowderBlue':'#b0e0e6', 'Purple':'#800080', 'RebeccaPurple':'#663399', 'Red':'#ff0000', 'RosyBrown':'#bc8f8f', 'RoyalBlue':'#4169e1', 'SaddleBrown':'#8b4513', 'Salmon':'#fa8072', 'SandyBrown':'#f4a460', 'SeaGreen':'#2e8b57', 'SeaShell':'#fff5ee', 'Sienna':'#a0522d', 'Silver':'#c0c0c0', 'SkyBlue':'#87ceeb', 'SlateBlue':'#6a5acd', 'SlateGray':'#708090', 'SlateGrey':'#708090', 'Snow':'#fffafa', 'SpringGreen':'#00ff7f', 'SteelBlue':'#4682b4', 'Tan':'#d2b48c', 'Teal':'#008080', 'Thistle':'#d8bfd8', 'Tomato':'#ff6347', 'Turquoise':'#40e0d0', 'Violet':'#ee82ee', 'Wheat':'#f5deb3', 'White':'#ffffff', 'WhiteSmoke':'#f5f5f5', 'Yellow':'#ffff00', 'YellowGreen':'#9acd32', 'transparent':'transparent'},
 
 	css_to_hex = (key) => {
@@ -153,7 +194,7 @@
 
 	// check color _______________________________________________________________________________________________________________________________________________
 
-	// return: false | 1 = HEX6 | 2 = HEX6a | 3 = HEX3 | 4 = HEX3a | 5 = rgb | 6 = rgba | 7 = hsl | 8 = hsla | 9 = css color | 10 = gradient
+	// return: false | 1 = HEX6 | 2 = HEX6a | 3 = HEX3 | 4 = HEX3a | 5 = rgb | 6 = rgba | 7 = hsl | 8 = hsla | 9 = css color | 10 = gradient |11 = lovergb | 12 = lovergba
 
 	check_color = (str) => { // Werte kommen immer getrimmt an (siehe inputs: keydown, fosusout)
 
@@ -170,9 +211,8 @@
 				else if(str_len === 4) return 3; // HEX3:  3  #fff
 				else if(str_len === 5) return 4; // HEX3a: 4  #fff3
 				else return false;
-			}
-
-		}
+            }
+        }
 		// rgb: 5 | rbga: 6 -----------------------------------------------------------------
 		else if(str.substr(0,2).toLowerCase() === 'rg'){
 
@@ -183,6 +223,19 @@
 			}
 			else{ // rgb: 5
 				return str.match(/^rgb\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\)$/) === null ? false : 5;
+			}
+
+        }
+		// lovergb: 11 | lovergba: 12 -----------------------------------------------------------------
+		else if(str.substr(0,2).toLowerCase() === 'se'){
+
+			str = str.replace(/\s/g, '').toLowerCase(); // Clean whitespaces and convert to lowercase
+
+            if(str.split(',').length == 4){ // lovergba: 12
+				return str.match(/^setcolor\((0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255),(0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255),(0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255),(0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255)\)$/) === null ? false : 12;
+			}
+			else{ // lovergb: 11
+				return str.match(/^setcolor\((0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255),(0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255),(0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255)\)$/) === null ? false : 11;
 			}
 
 		}
@@ -402,9 +455,10 @@
 			// alpha?
 			const arr_tmp = arr_picker_hsla[3] < 1 ? arr_picker_hsla : [arr_picker_hsla[0], arr_picker_hsla[1], arr_picker_hsla[2]];
 
-			// picker_csys: 0 = HEX | 1 = rgba | 2 = hsla
+			// picker_csys: 0 = HEX | 1 = rgba | 2 = hsla | 3 = lovergba
 			if(picker_csys === 1) picker_color = arr_rgba_hsla_to_str(hsla_to_rgba(arr_tmp), 'rgb'); // c_sys = 'rgb' || 'hsl'
-			else if(picker_csys === 2) picker_color = arr_rgba_hsla_to_str(arr_tmp, 'hsl') // c_sys = 'rgb' || 'hsl'
+            else if(picker_csys === 2) picker_color = arr_rgba_hsla_to_str(arr_tmp, 'hsl'); // c_sys = 'rgb' || 'hsl'
+            else if(picker_csys === 3) picker_color = arr_lovergba_to_str( rgba_to_lovergba( hsla_to_rgba(arr_tmp)));
 			else picker_color = str_rgba_to_hex(arr_rgba_hsla_to_str( hsla_to_rgba(arr_tmp), 'rgb'));
 
 			$picker_color_text.textContent = picker_color;
@@ -431,14 +485,17 @@
 
 				// picker_csys: 0 = HEX6 | HEX6a | HEX3 | HEX3a | CSS Color
 				// 				1 = rgba
-				//				2 = hsla
+                //				2 = hsla
+                //              3 = lovergba
 
 				const tmp = picker_color.substr(0,2);
 
 				// rgb
 				if(tmp === 'rg') picker_csys = 1;
 				// hsl
-				else if(tmp === 'hs') picker_csys = 2;
+                else if(tmp === 'hs') picker_csys = 2;
+				// lovergb
+                else if(tmp === 'se') picker_csys = 3;
 				// hex | css color
 				else picker_csys = 0;
 
@@ -478,7 +535,7 @@
 		// window resize  _______________________________________________________________________________________________________________________________________________
 		picker_check_color = (str_color) => {
 
-			// return: false | 1 = HEX6 | 2 = HEX6a | 3 = HEX3 | 4 = HEX3a | 5 = rgb | 6 = rgba | 7 = hsl | 8 = hsla | 9 = css color | 10 = gradient
+			// return: false | 1 = HEX6 | 2 = HEX6a | 3 = HEX3 | 4 = HEX3a | 5 = rgb | 6 = rgba | 7 = hsl | 8 = hsla | 9 = css color | 10 = gradient | 11 = lovergb | 12 = lovergba
 
 			const check_result = check_color(str_color);
 
@@ -535,7 +592,12 @@
 					picker_csys = 0; // 0 = HEX | 1 = rgba | 2 = hsla
 
 				}
-
+				// lovergb(a)
+				else if(check_result === 11 || check_result === 12){
+					arr_picker_hsla = rgba_to_hsla(lovergba_to_rgba(str_lovergba_to_arr(str_color)) );
+					if(check_result === 11) arr_picker_hsla[3] = 1; // alpha 1
+					picker_csys = 3; // 0 = HEX | 1 = rgba | 2 = hsla | 3 = lovergba
+				}
 			}
 
 		},
@@ -639,7 +701,7 @@
 			alpha_slider_height = 0,
 			alpha_pointer_width = 0,
 
-			picker_csys = 0, // 0 = HEX | 1 = rgb | 2 = hsl
+			picker_csys = 0, // 0 = HEX | 1 = rgb | 2 = hsl | 3 = lovergb
 
 			picker_color_check_failed = false;
 
@@ -819,9 +881,9 @@
 
 	switch_color_system = (str_color) => {
 
-		let check_result = check_color(str_color); // return: false | 1 = HEX6 | 2 = HEX6a | 3 = HEX3 | 4 = HEX3a | 5 = rgb | 6 = rgba | 7 = hsl | 8 = hsla | 9 = css color | 10 = gradient
+		let check_result = check_color(str_color); // return: false | 1 = HEX6 | 2 = HEX6a | 3 = HEX3 | 4 = HEX3a | 5 = rgb | 6 = rgba | 7 = hsl | 8 = hsla | 9 = css color | 10 = gradient | 11 = loverg | 12 = lovergba
 
-		// HEX3 -> HEX6 -> RGB > HSL -> CSS
+		// HEX3 -> HEX6 -> RGB > LOVERGB -> HSL -> CSS
 
 		// hex(a): HEX3 -> HEX6 | HEX6 -> RGB -----------------------------------------------------------------------------------------------------
 		if(check_result === 1 || check_result === 2){
@@ -835,9 +897,13 @@
 		else if(check_result === 4){
 			return convert_short_hex(str_color, 48); // type: 36 = #fff -> #ffffff | 48 = #fff3 -> #ffffff33 | 63 = #ffffff -> #fff | 84 = #ffffff33 -> #fff3
 		}
-		// rgb(a): RGB -> HSL -----------------------------------------------------------------------------------------------------
+		// rgb(a): RGB -> lovergba -----------------------------------------------------------------------------------------------------
 		else if(check_result === 5 || check_result === 6){
-			return arr_rgba_hsla_to_str( rgba_to_hsla( str_rgba_hsla_to_arr(str_color) ), 'hsl');
+			return arr_lovergba_to_str( rgba_to_lovergba( str_rgba_hsla_to_arr(str_color) ));
+        }
+        // loverrgb -> hsl rgb(80,90,100)   setColor(80/255, 90/255, 100/255)
+        else if(check_result === 11 || check_result === 12){
+            return arr_rgba_hsla_to_str( rgba_to_hsla(lovergba_to_rgba(str_lovergba_to_arr(str_color) )), 'hsl');
 		}
 		// hsl(a): HSL -> HEX -----------------------------------------------------------------------------------------------------
 		else if(check_result === 7 || check_result === 8){
@@ -885,7 +951,6 @@
 		}
 
 	},
-
 
 	// add_colors █████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 
@@ -1751,7 +1816,11 @@
 					}
 					// rgb(a)
 					else if(check_result === 5 || check_result === 6){
-						arr_hsl[i] = rgba_to_hsla( str_rgba_hsla_to_arr(arr_c[i]) );
+						arr_hsl[i] =  rgba_to_lovergba(str_rgba_hsla_to_arr(arr_c[i]) );
+                    }
+					// loverrgb(a)
+					else if(check_result === 11 || check_result === 12){
+						arr_hsl[i] = rgba_to_hsla( lovergba_to_rgba( str_lovergba_to_arr(arr_c[i]) ));
 					}
 					// hsl(a)
 					else if(check_result === 7 || check_result === 8){
@@ -1828,7 +1897,7 @@
 
 			},
 
-			// 0 = hex, 1 = rgb, 2 = hsl
+			// 0 = hex, 1 = rgb, 2 = hsl 3 = lovergb
 			convert_type = e.currentTarget.convert_type;
 
 
@@ -1842,7 +1911,7 @@
 
 				str_color_conv = false; // reset
 				str_color = arr_c[i];
-				check_result = check_color(str_color);  // return: false | 1 = HEX6 | 2 = HEX6a | 3 = HEX3 | 4 = HEX3a | 5 = rgb | 6 = rgba | 7 = hsl | 8 = hsla | 9 = css color | 10 = gradient
+				check_result = check_color(str_color);  // return: false | 1 = HEX6 | 2 = HEX6a | 3 = HEX3 | 4 = HEX3a | 5 = rgb | 6 = rgba | 7 = hsl | 8 = hsla | 9 = css color | 10 = gradient    | 11 = lovergb  | 12 = lovergba
 
 				// hex -----------------------------------------------------------------------------------------------------
 				if(check_result >= 1 && check_result <= 4){
@@ -1854,7 +1923,11 @@
 					// hex -> hsl
 					else if(convert_type === 2){
 						str_color_conv = arr_rgba_hsla_to_str( rgba_to_hsla( hex_to_rgba(str_color, false) ), 'hsl'); // hex_to_rgba: true = return string, false = return array
-					}
+                    }
+                    // hex -> lovergb
+                    else if(convert_type === 3){
+                        str_color_conv = arr_lovergba_to_str( rgba_to_lovergba( hex_to_rgba(str_color, false) ) )
+                    }
 
 				}
 				// rgb -----------------------------------------------------------------------------------------------------
@@ -1867,6 +1940,27 @@
 					// rgb -> hsl
 					else if(convert_type === 2){
 						str_color_conv = arr_rgba_hsla_to_str( rgba_to_hsla( str_rgba_hsla_to_arr(str_color) ), 'hsl');
+                    }
+                    // rgb -> lovergb
+                    else if(convert_type === 3){
+                        str_color_conv = arr_lovergba_to_str( rgba_to_lovergba( str_rgba_hsla_to_arr( str_color ) ) );
+                    }
+
+                }
+				// lovergb -----------------------------------------------------------------------------------------------------
+				else if(check_result === 11 || check_result === 12){
+
+					// lovergb -> hex
+					if(convert_type === 0){
+						str_color_conv = check_short_hex(str_rgba_to_hex( arr_rgba_hsla_to_str( lovergba_to_rgba(str_lovergba_to_arr(str_color) ))));
+                    }
+					// lovergb -> rgb
+					if(convert_type === 1){
+						str_color_conv = arr_rgba_hsla_to_str( lovergba_to_rgba(str_lovergba_to_arr(str_color)), 'rgb');
+					}
+					// lovergba -> hsl
+					else if(convert_type === 2){
+						str_color_conv = arr_rgba_hsla_to_str( lovergba_to_rgba( str_lovergba_to_arr(str_color) ), 'hsl');
 					}
 
 				}
@@ -1882,7 +1976,11 @@
 					// hsl -> rgb
 					else if(convert_type === 1){
 						str_color_conv = arr_rgba_hsla_to_str( hsla_to_rgba( str_rgba_hsla_to_arr(str_color) ), 'rgb');
-					}
+                    }
+					// hsl -> lovergb
+					else if(convert_type === 3){
+						str_color_conv = arr_lovergba_to_str( rgba_to_lovergba( str_rgba_hsla_to_arr(str_color) ));
+                    }
 
 				}
 				// css color -----------------------------------------------------------------------------------------------------
@@ -1897,8 +1995,12 @@
 						str_color_conv = hex_to_rgba( css_to_hex(str_color), true); // true = return string, false = return array
 					}
 					// css -> hsl
-					else{
+					else if(convert_type === 2) {
 						str_color_conv = arr_rgba_hsla_to_str( rgba_to_hsla( hex_to_rgba(css_to_hex(str_color), false) ), 'hsl'); // hex_to_rgba: true = return string, false = return array
+                    }
+					// css -> rgb
+					else if(convert_type === 3){
+						str_color_conv = arr_lovergba_to_str( rgba_to_lovergba(hex_to_rgba( css_to_hex(str_color), false))); // true = return string, false = return array
 					}
 
 				}

@@ -887,6 +887,14 @@ activate = (context) => {
 					csys = 1;
 					break;
 				}
+            }
+            // lovergba setColor
+			else if(char_current === 's'){
+				if(i + 26 < line_len && line_lc.substr(i+1, 2) === 'et'){ // i + 9 = Mindestlänge 'setColor(1/255,1/255,1/255)'
+					pos_start = i;
+					csys = 1;
+					break;
+				}
 			}
 
 		}
@@ -1021,7 +1029,7 @@ activate = (context) => {
 			delete obj_autocomplete_providers.key;
 		}
 	},
-
+    // rgb(100,100,156) #ccbbaa     setColor(100/255, 155/255, 155/255)
 	// extension cm_open_palette ██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 
 	ext_main = vscode.commands.registerCommand('extension.cm_open_palette', () => {
@@ -1248,6 +1256,16 @@ activate = (context) => {
 			
 			if(selected_text.indexOf('rgba') !== -1){
 				extract_colors(/rgba\(\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\s*,\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\s*,\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\s*,\s*(0|1|0?\.?\d*?)\s*\)/g);
+			}
+			
+        }
+        
+		// setColor
+		if(selected_text.indexOf('setColor') !== -1 && selected_text.split(',').lenght == 4){
+			extract_colors(/setColor\(\s*(0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255),\s*(0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255),\s*(0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255),\s*(0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255)\s*\)/g);
+			
+			if(selected_text.indexOf('setColor') !== -1 && selected_text.split(',').lenght == 3){
+                extract_colors(/setColor\(\s*(0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255),\s*(0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255),\s*(0\/255|255\/255|25[0-4]\/255|2[0-4]\d\/255|1\d\d\/255|[1-9]\d\/255|[1-9]\/255)\s*\)/g);
 			}
 			
 		}
